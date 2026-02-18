@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ─── Local Fonts ──────────────────────────────────────────── */
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  src: url("/fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design Tokens ────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  --color-text:    #24262C;
+  --color-bg:      #F1F1F1;
+  --color-primary: #BFFF29;
+  --color-hover:   #C42C38;
+  --color-border:  #24262C;
+  --color-muted:   #E9E9EA;
+  --radius:        10px;
+
+  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Component Utilities ──────────────────────────────────── */
+@layer components {
+  @reference "tailwindcss";
+
+  .heading {
+    @apply font-medium tracking-tight;
+    font-family: var(--font-sans);
+  }
+
+  .font-mono-custom {
+    font-family: var(--font-mono);
+  }
+
+  .section-y {
+    @apply py-[80px] md:py-[120px] xl:py-[160px];
+  }
+
+  .section-hero {
+    @apply py-[120px] md:py-[160px] xl:py-[240px];
+  }
+
+  .section-compact {
+    @apply py-[60px] md:py-[80px] xl:py-[120px];
+  }
+}
