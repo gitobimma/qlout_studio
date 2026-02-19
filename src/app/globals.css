@@ -57,6 +57,39 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ─── Focus Section ────────────────────────────────────────── */
+.focus-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+}
+@media (max-width: 768px) {
+  .focus-grid {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 48px 24px;
+  }
+  .focus-grid > * { width: calc(50% - 12px); }
+}
+@media (max-width: 420px) {
+  .focus-grid { gap: 40px 16px; }
+  .focus-grid > * { width: calc(50% - 8px); }
+}
+
+.focus-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.9375rem;
+  color: var(--color-hover);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity 0.15s;
+}
+.focus-link:hover { opacity: 0.75; }
+
 /* ─── Component Utilities ──────────────────────────────────── */
 @layer components {
   @reference "tailwindcss";

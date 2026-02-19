@@ -2,7 +2,6 @@
 
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
 import Container from "@/components/ui/Container";
 import {
   BrandingIcon,
@@ -73,12 +72,31 @@ export default function Hero() {
 
   // ── Video scroll-expand ──────────────────────────────────────────────────
   const videoWrapRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: videoWrapRef,
-    offset: ["start center", "start start"],
-  });
-  const videoHeight = useTransform(scrollYProgress, [0, 1], ["250px", "100vh"]);
-  const imageScale  = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+  const [videoH, setVideoH] = useState("250px");
+  const [imgScale, setImgScale] = useState(1);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!videoWrapRef.current) return;
+      const top = videoWrapRef.current.getBoundingClientRect().top + window.scrollY;
+      const vh  = window.innerHeight;
+      const start = top - vh * 0.3;
+      const end   = top + vh * 0.5;
+      const raw   = (window.scrollY - start) / (end - start);
+      const t     = Math.min(1, Math.max(0, raw));
+      const px    = 250 + t * (vh - 250);
+      setVideoH(`${px}px`);
+      setImgScale(1 + t * 0.08);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   return (
     <section>
@@ -92,6 +110,21 @@ export default function Hero() {
           opacity: 0;
           animation: heroFadeUp ${DURATION} ${EASE} forwards;
         }
+        @keyframes dividerGrow {
+          from { transform: scaleX(0); }
+          to   { transform: scaleX(1); }
+        }
+        .hero-divider {
+          transform-origin: left center;
+          transform: scaleX(0);
+          animation: dividerGrow 1.2s ${EASE} forwards;
+          animation-delay: 0.46s;
+        }
+        .hero-video {
+          opacity: 0;
+          animation: heroFadeUp 0.6s ${EASE} forwards;
+          animation-delay: 1.66s;
+        }
       `}</style>
 
       <Container>
@@ -100,7 +133,7 @@ export default function Hero() {
         <div
           className="hero-animate flex items-center justify-between"
           style={{
-            paddingTop: "100px",
+            paddingTop: "48px",
             fontFamily: "var(--font-mono)",
             fontSize: "0.8125rem",
             animationDelay: "0s",
@@ -200,30 +233,33 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── Divider ─────────────────────────────────────────────────────── */}
+        {/* ── Divider — grows left→right after last icon animates in ────────── */}
         <div
-          style={{ marginTop: "40px", height: "1px", backgroundColor: "var(--color-border)" }}
+          className="hero-divider"
+          style={{ marginTop: "40px", height: "1px", backgroundColor: "#E9E9EA" }}
           role="separator"
           aria-hidden="true"
         />
 
-        {/* ── Video / Key Visual ──────────────────────────────────────────── */}
-        <div ref={videoWrapRef} style={{ marginTop: "40px", paddingBottom: "80px" }}>
-          <motion.div
+        {/* ── Video / Key Visual — appears after divider finishes ────────────── */}
+        <div ref={videoWrapRef} className="hero-video" style={{ marginTop: "40px", paddingBottom: "60px" }}>
+          <div
             style={{
-              height: videoHeight,
-              borderRadius: "4px",
+              height: videoH,
+              borderRadius: "10px",
               overflow: "hidden",
               position: "relative",
               willChange: "height",
+              transition: "height 0.05s linear",
             }}
           >
-            <motion.div
+            <div
               style={{
                 position: "absolute",
                 inset: 0,
-                scale: imageScale,
+                transform: `scale(${imgScale})`,
                 transformOrigin: "center center",
+                willChange: "transform",
               }}
             >
               <Image
@@ -234,8 +270,18 @@ export default function Hero() {
                 style={{ objectFit: "cover" }}
                 priority
               />
-            </motion.div>
-          </motion.div>
+            </div>
+            {/* 40% black overlay */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundColor: "rgba(0, 0, 0, 0.4)",
+                borderRadius: "10px",
+                pointerEvents: "none",
+              }}
+            />
+          </div>
         </div>
 
       </Container>

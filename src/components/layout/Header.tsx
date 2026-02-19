@@ -60,7 +60,7 @@ export default function Header() {
                   key={href}
                   href={href}
                   className="nav-link text-sm font-medium transition-colors duration-150"
-                  style={{ fontFamily: "var(--font-sans)", color: "var(--color-text)", textDecoration: "none" }}
+                  style={{ fontFamily: "var(--font-sans)", color: "var(--color-text)", textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.04em" }}
                 >
                   {label}
                 </a>
