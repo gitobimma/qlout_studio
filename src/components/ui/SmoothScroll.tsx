@@ -5,8 +5,11 @@ import { useEffect, useRef } from "react";
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const locoScrollRef = useRef<any>(null);
+  const resizeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    let cleanup: (() => void) | undefined;
+
     const initLocomotiveScroll = async () => {
       try {
         const LocomotiveScroll = (await import("locomotive-scroll")).default;
@@ -29,22 +32,37 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
             },
           });
 
-          // Update on window resize
+          // Debounced resize handler
           const handleResize = () => {
-            if (locoScrollRef.current) {
-              locoScrollRef.current.update();
+            // Clear existing timeout
+            if (resizeTimeoutRef.current) {
+              clearTimeout(resizeTimeoutRef.current);
             }
+
+            // Set new timeout
+            resizeTimeoutRef.current = setTimeout(() => {
+              if (locoScrollRef.current && typeof locoScrollRef.current.update === 'function') {
+                try {
+                  locoScrollRef.current.update();
+                } catch (err) {
+                  console.warn('Locomotive Scroll update error:', err);
+                }
+              }
+            }, 150); // Debounce by 150ms
           };
 
           window.addEventListener("resize", handleResize);
 
-          // Cleanup resize listener
-          return () => {
+          // Cleanup function
+          cleanup = () => {
             window.removeEventListener("resize", handleResize);
+            if (resizeTimeoutRef.current) {
+              clearTimeout(resizeTimeoutRef.current);
+            }
           };
         }
       } catch (error) {
-        console.error("Locomotive Scroll error:", error);
+        console.error("Locomotive Scroll initialization error:", error);
       }
     };
 
@@ -53,8 +71,26 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     return () => {
       clearTimeout(timer);
+
+      // Clear resize timeout
+      if (resizeTimeoutRef.current) {
+        clearTimeout(resizeTimeoutRef.current);
+      }
+
+      // Run cleanup function if it exists
+      if (cleanup) {
+        cleanup();
+      }
+
+      // Destroy Locomotive Scroll instance
       if (locoScrollRef.current) {
-        locoScrollRef.current.destroy();
+        try {
+          if (typeof locoScrollRef.current.destroy === 'function') {
+            locoScrollRef.current.destroy();
+          }
+        } catch (err) {
+          console.warn('Locomotive Scroll destroy error:', err);
+        }
         locoScrollRef.current = null;
       }
     };

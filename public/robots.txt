@@ -1,0 +1,9 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow admin/system pages (none for this site)
+# Disallow: /admin
+
+# Sitemap location
+Sitemap: https://qlout.studio/sitemap.xml
