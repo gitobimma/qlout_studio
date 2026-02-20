@@ -120,19 +120,35 @@ export default function ProjectsSlider({ filterTags }: ProjectsSliderProps) {
       `}</style>
 
       <div style={{ overflow: "hidden", width: "100%", maxWidth: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
-        <div className="projects-slider-track">
+        <div
+          ref={trackRef}
+          className="projects-slider-track"
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+          style={{
+            cursor: isDragging ? 'grabbing' : 'grab',
+            userSelect: 'none'
+          }}
+        >
           {slides.map((project, i) => (
             <a
               key={`${project.id}-${i}`}
               href={`/projekte/${project.slug}`}
               className="project-slider-card"
               draggable="false"
+              onClick={(e) => {
+                if (isDragging) {
+                  e.preventDefault();
+                }
+              }}
             >
               <Image
                 src={project.heroImage}
                 alt={project.title}
                 fill
-                sizes="600px"
+                sizes="750px"
                 style={{ objectFit: "cover" }}
                 className="project-slider-card-img"
                 draggable="false"

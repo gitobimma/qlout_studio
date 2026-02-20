@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import { getActiveProjects } from "@/data/projects";
@@ -9,12 +10,48 @@ const GAP    = 16;    // px — gap between cards
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProjectsPreview() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
   const PROJECTS = getActiveProjects();
   const STEP = CARD_W + GAP;
   const SET_W = PROJECTS.length * STEP;
 
   // Triple the slides so the loop is always seamless
   const slides = [...PROJECTS, ...PROJECTS, ...PROJECTS];
+
+  // Drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!trackRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - trackRef.current.offsetLeft);
+    setScrollLeft(trackRef.current.scrollLeft);
+    trackRef.current.style.cursor = 'grabbing';
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    if (trackRef.current) {
+      trackRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    if (trackRef.current) {
+      trackRef.current.style.cursor = 'grab';
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - trackRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll speed
+    trackRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   return (
     <>
@@ -118,13 +155,29 @@ export default function ProjectsPreview() {
 
         {/* ── Carousel — full viewport width ── */}
         <div style={{ overflow: "hidden", width: "100%", maxWidth: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
-          <div className="projects-track">
+          <div
+            ref={trackRef}
+            className="projects-track"
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            style={{
+              cursor: isDragging ? 'grabbing' : 'grab',
+              userSelect: 'none'
+            }}
+          >
             {slides.map((project, i) => (
               <a
                 key={`${project.id}-${i}`}
                 href={`/projekte/${project.slug}`}
                 className="project-card"
                 draggable="false"
+                onClick={(e) => {
+                  if (isDragging) {
+                    e.preventDefault();
+                  }
+                }}
               >
                 <Image
                   src={project.heroImage}
