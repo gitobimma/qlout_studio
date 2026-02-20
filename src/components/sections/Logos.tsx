@@ -11,19 +11,19 @@ const BRANDS = [
 
 export default function Logos() {
   return (
-    <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+    <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
       <Container>
 
         <h2 style={{
           fontFamily: "var(--font-sans)",
           fontWeight: 700,
-          fontSize: "clamp(1.75rem, 4vw, 3rem)",
+          fontSize: "clamp(1.5rem, 4vw, 3rem)",
           textTransform: "uppercase",
           letterSpacing: "-0.02em",
           lineHeight: 1.1,
           color: "var(--color-text)",
           maxWidth: "640px",
-          margin: "0 0 60px",
+          margin: "0 0 clamp(40px, 6vw, 60px)",
         }}>
           Für <strong style={{ fontWeight: 700 }}>Unternehmen</strong> aus Industrie,{" "}
           Handel und Technologie.
@@ -34,7 +34,7 @@ export default function Logos() {
           alignItems: "flex-end",
           justifyContent: "space-between",
           flexWrap: "wrap",
-          gap: "40px 24px",
+          gap: "clamp(32px, 5vw, 40px) clamp(20px, 3vw, 24px)",
         }}>
           {BRANDS.map(({ id, label, src }) => (
             <div key={id} style={{
@@ -42,11 +42,11 @@ export default function Logos() {
               flexDirection: "column",
               alignItems: "center",
               gap: "12px",
-              width: "120px",
+              width: "clamp(100px, 15vw, 120px)",
             }}>
               <div style={{
                 width: "100%",
-                height: "60px",
+                height: "clamp(50px, 8vw, 60px)",
                 display: "flex",
                 alignItems: "flex-end",
                 justifyContent: "center",
@@ -61,7 +61,7 @@ export default function Logos() {
               </div>
               <span style={{
                 fontFamily: "var(--font-sans)",
-                fontSize: "0.75rem",
+                fontSize: "clamp(0.65rem, 1.2vw, 0.75rem)",
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 color: "var(--color-text)",

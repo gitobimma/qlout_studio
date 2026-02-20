@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Container from "@/components/ui/Container";
 import {
   BrandingIcon,
@@ -35,20 +38,29 @@ const SERVICES = [
 ];
 
 export default function Focus() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <>
-      <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+      <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
         <Container>
 
           <h2
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 700,
-              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontSize: "clamp(1.75rem, 4vw, 3rem)",
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
               color: "var(--color-text)",
-              marginBottom: "60px",
+              marginBottom: "clamp(40px, 6vw, 60px)",
             }}
           >
             Fokus
@@ -56,13 +68,13 @@ export default function Focus() {
 
           <div className="focus-grid">
             {SERVICES.map(({ id, label, href, Icon }) => (
-              <div key={id} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "20px" }}>
-                <Icon size={80} style={{ color: "var(--color-text)" }} />
+              <div key={id} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "clamp(16px, 2vw, 20px)" }}>
+                <Icon size={isMobile ? 60 : 80} style={{ color: "var(--color-text)" }} />
                 <h3
                   style={{
                     fontFamily: "var(--font-sans)",
                     fontWeight: 700,
-                    fontSize: "1.5rem",
+                    fontSize: "clamp(1.125rem, 2.5vw, 1.5rem)",
                     textTransform: "uppercase",
                     letterSpacing: "0.02em",
                     color: "var(--color-text)",

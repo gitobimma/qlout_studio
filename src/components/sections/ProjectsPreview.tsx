@@ -114,15 +114,15 @@ export default function ProjectsPreview() {
         }
       `}</style>
 
-      <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+      <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
 
         {/* ── Header — right-aligned ── */}
         <Container>
-          <div style={{ textAlign: "right", marginBottom: "48px" }}>
+          <div style={{ textAlign: "right", marginBottom: "clamp(32px, 5vw, 48px)" }}>
             <h2 style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 700,
-              fontSize: "clamp(2rem, 5vw, 3.75rem)",
+              fontSize: "clamp(1.75rem, 5vw, 3.75rem)",
               letterSpacing: "-0.02em",
               textTransform: "uppercase",
               color: "var(--color-text)",
@@ -133,9 +133,9 @@ export default function ProjectsPreview() {
             </h2>
             <p style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "1rem",
+              fontSize: "clamp(0.9rem, 2vw, 1rem)",
               color: "var(--color-text)",
-              marginTop: "16px",
+              marginTop: "clamp(12px, 2vw, 16px)",
               marginBottom: "12px",
             }}>
               Branding, UX/UI und Weblösungen im Einsatz.
@@ -154,7 +154,7 @@ export default function ProjectsPreview() {
         </Container>
 
         {/* ── Carousel — full viewport width ── */}
-        <div style={{ overflow: "hidden", width: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)" }}>
+        <div style={{ overflow: "hidden", width: "100%", maxWidth: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
           <div className="projects-track">
             {slides.map(({ id, slug, slogan, name, image }, i) => (
               <a

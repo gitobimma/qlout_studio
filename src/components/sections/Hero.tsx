@@ -60,6 +60,7 @@ const EASE     = "cubic-bezier(0.16, 1, 0.3, 1)"; // expo-out feel
 export default function Hero() {
   const [icons, setIcons] = useState(ALL_SERVICE_ICONS);
   const [today, setToday] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setIcons(shuffle(ALL_SERVICE_ICONS));
@@ -68,6 +69,11 @@ export default function Hero() {
     const mm   = String(d.getMonth() + 1).padStart(2, "0");
     const yyyy = d.getFullYear();
     setToday(`${dd}.${mm}.${yyyy}`);
+
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // ── Video scroll-expand ──────────────────────────────────────────────────
@@ -133,9 +139,9 @@ export default function Hero() {
         <div
           className="hero-animate flex items-center justify-between"
           style={{
-            paddingTop: "48px",
+            paddingTop: "clamp(24px, 5vw, 48px)",
             fontFamily: "var(--font-mono)",
-            fontSize: "0.8125rem",
+            fontSize: "clamp(0.7rem, 1.5vw, 0.8125rem)",
             animationDelay: "0s",
           }}
         >
@@ -147,8 +153,8 @@ export default function Hero() {
         <h1
           className="hero-animate heading"
           style={{
-            marginTop: "40px",
-            fontSize: "clamp(2rem, 5vw, 4.5rem)",
+            marginTop: "clamp(24px, 4vw, 40px)",
+            fontSize: "clamp(1.75rem, 5vw, 4.5rem)",
             lineHeight: 1.08,
             letterSpacing: "-0.02em",
             animationDelay: "0.1s",
@@ -161,32 +167,37 @@ export default function Hero() {
         {/* ── Icons + Text Row ────────────────────────────────────────────── */}
         <div
           className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10"
-          style={{ marginTop: "40px" }}
+          style={{ marginTop: "clamp(24px, 4vw, 40px)" }}
         >
           {/* Icons — stagger starting at delay 0.22s, each +0.07s */}
           <div
-            className="flex items-center"
-            style={{ gap: "clamp(24px, 4vw, 80px)", color: "#E9E9EA" }}
+            className="flex items-center w-full md:w-auto"
+            style={{
+              gap: "clamp(16px, 4vw, 80px)",
+              color: "#E9E9EA",
+              overflowX: isMobile ? "auto" : "visible",
+              WebkitOverflowScrolling: "touch"
+            }}
           >
             {icons.map(({ id, label, Icon }, i) => (
               <div
                 key={id}
-                className="hero-animate"
+                className="hero-animate shrink-0"
                 style={{ animationDelay: `${0.22 + i * 0.07}s` }}
               >
-                <Icon size={90} aria-label={label} />
+                <Icon size={isMobile ? 50 : 90} aria-label={label} />
               </div>
             ))}
           </div>
 
           {/* Right column: text delay 0.3s, button delay 0.38s */}
-          <div className="max-w-[420px]">
+          <div className="max-w-[420px] w-full">
             <p
               className="hero-animate"
               style={{
                 fontFamily: "var(--font-sans)",
                 fontWeight: 400,
-                fontSize: "1rem",
+                fontSize: "clamp(0.9rem, 2vw, 1rem)",
                 lineHeight: 1.6,
                 color: "var(--color-text)",
                 animationDelay: "0.3s",
@@ -202,7 +213,7 @@ export default function Hero() {
               className="hero-animate inline-flex items-center mt-6 transition-colors duration-150"
               style={{
                 fontFamily: "var(--font-mono)",
-                fontSize: "0.8125rem",
+                fontSize: "clamp(0.75rem, 1.5vw, 0.8125rem)",
                 fontWeight: 400,
                 padding: "12px 24px",
                 borderRadius: "4px",
@@ -236,13 +247,13 @@ export default function Hero() {
         {/* ── Divider — grows left→right after last icon animates in ────────── */}
         <div
           className="hero-divider"
-          style={{ marginTop: "40px", height: "1px", backgroundColor: "#E9E9EA" }}
+          style={{ marginTop: "clamp(24px, 4vw, 40px)", height: "1px", backgroundColor: "#E9E9EA" }}
           role="separator"
           aria-hidden="true"
         />
 
         {/* ── Video / Key Visual — appears after divider finishes ────────────── */}
-        <div ref={videoWrapRef} className="hero-video" style={{ marginTop: "40px", paddingBottom: "60px" }}>
+        <div ref={videoWrapRef} className="hero-video" style={{ marginTop: "clamp(24px, 4vw, 40px)", paddingBottom: "clamp(40px, 6vw, 60px)" }}>
           <div
             style={{
               height: videoH,

@@ -36,13 +36,13 @@ export default function Principles() {
         .principles-card {
           flex: 1;
           min-width: 0;
-          padding: 32px;
+          padding: clamp(20px, 4vw, 32px);
           border-radius: 10px;
           background: var(--color-muted);
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          min-height: 280px;
+          min-height: clamp(220px, 30vw, 280px);
           transition: background 0.2s ease, color 0.2s ease;
           cursor: default;
         }
@@ -73,14 +73,14 @@ export default function Principles() {
         }
       `}</style>
 
-      <section style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+      <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
         <Container>
 
-          <div style={{ textAlign: "right", marginBottom: "48px" }}>
+          <div style={{ textAlign: "right", marginBottom: "clamp(32px, 5vw, 48px)" }}>
             <h2 style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 700,
-              fontSize: "clamp(2rem, 5vw, 3.75rem)",
+              fontSize: "clamp(1.75rem, 5vw, 3.75rem)",
               textTransform: "uppercase",
               letterSpacing: "-0.02em",
               lineHeight: 1.0,
@@ -91,9 +91,9 @@ export default function Principles() {
             </h2>
             <p style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "1rem",
+              fontSize: "clamp(0.9rem, 2vw, 1rem)",
               color: "var(--color-text)",
-              marginTop: "16px",
+              marginTop: "clamp(12px, 2vw, 16px)",
             }}>
               Gestaltung beginnt mit Struktur. Wirkung entsteht durch System.
             </p>
