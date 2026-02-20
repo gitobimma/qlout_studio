@@ -54,6 +54,26 @@ export const PROJECTS: Project[] = [
       {
         url: "/images/Rectangle 32.png",
         alt: "StudioForMe Detail 2"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "StudioForMe Detail 3"
+      },
+      {
+        url: "/images/b6e1cfb7e6dca30bb1d10f654801df2b.jpg",
+        alt: "StudioForMe Detail 4"
+      },
+      {
+        url: "/images/a3b4db9389d9140cbe3b3ad2545516eb.jpg",
+        alt: "StudioForMe Detail 5"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "StudioForMe Detail 6"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "StudioForMe Detail 7"
       }
     ],
     year: "2024",
@@ -76,6 +96,26 @@ export const PROJECTS: Project[] = [
       {
         url: "/images/b6e1cfb7e6dca30bb1d10f654801df2b.jpg",
         alt: "Viper Beer Packaging"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "Viper Beer Detail 1"
+      },
+      {
+        url: "/images/a3b4db9389d9140cbe3b3ad2545516eb.jpg",
+        alt: "Viper Beer Detail 2"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "Viper Beer Detail 3"
+      },
+      {
+        url: "/images/b6e1cfb7e6dca30bb1d10f654801df2b.jpg",
+        alt: "Viper Beer Detail 4"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "Viper Beer Detail 5"
       }
     ],
     year: "2024",
@@ -97,6 +137,30 @@ export const PROJECTS: Project[] = [
       {
         url: "/images/a3b4db9389d9140cbe3b3ad2545516eb.jpg",
         alt: "Sour Sour Packaging"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "Sour Sour Detail 1"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "Sour Sour Detail 2"
+      },
+      {
+        url: "/images/b6e1cfb7e6dca30bb1d10f654801df2b.jpg",
+        alt: "Sour Sour Detail 3"
+      },
+      {
+        url: "/images/a3b4db9389d9140cbe3b3ad2545516eb.jpg",
+        alt: "Sour Sour Detail 4"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "Sour Sour Detail 5"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "Sour Sour Detail 6"
       }
     ],
     year: "2024",
@@ -118,6 +182,30 @@ export const PROJECTS: Project[] = [
       {
         url: "/images/Rectangle 30.png",
         alt: "Food App Interface"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "Food App Detail 1"
+      },
+      {
+        url: "/images/b6e1cfb7e6dca30bb1d10f654801df2b.jpg",
+        alt: "Food App Detail 2"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "Food App Detail 3"
+      },
+      {
+        url: "/images/a3b4db9389d9140cbe3b3ad2545516eb.jpg",
+        alt: "Food App Detail 4"
+      },
+      {
+        url: "/images/Rectangle 32.png",
+        alt: "Food App Detail 5"
+      },
+      {
+        url: "/images/Rectangle 30.png",
+        alt: "Food App Detail 6"
       }
     ],
     year: "2024",

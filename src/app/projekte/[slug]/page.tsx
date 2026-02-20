@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import Container from "@/components/ui/Container";
 import Image from "next/image";
 import { getProjectBySlug } from "@/data/projects";
@@ -9,6 +10,17 @@ export default function ProjectDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const project = getProjectBySlug(slug);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   if (!project) {
     return (
@@ -202,50 +214,53 @@ export default function ProjectDetailPage() {
         <Container>
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(12, 1fr)",
-            gridAutoRows: "200px",
-            gap: "clamp(12px, 1.5vw, 20px)",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)",
+            gridAutoRows: isMobile ? "250px" : "200px",
+            gap: isMobile ? "16px" : "clamp(12px, 1.5vw, 20px)",
           }}>
-            {project.images.slice(1).map((image, index) => {
+            {project.images.map((image, index) => {
               // Bento Grid Pattern - verschiedene Größen für interessantes Layout
               let gridColumn = "span 12";
               let gridRow = "span 2";
 
-              if (index === 0) {
-                // Erstes Bild: groß und breit
-                gridColumn = "span 8";
-                gridRow = "span 3";
-              } else if (index === 1) {
-                // Zweites Bild: hoch rechts
-                gridColumn = "span 4";
-                gridRow = "span 3";
-              } else if (index === 2) {
-                // Drittes Bild: mittel
-                gridColumn = "span 6";
-                gridRow = "span 2";
-              } else if (index === 3) {
-                // Viertes Bild: mittel
-                gridColumn = "span 6";
-                gridRow = "span 2";
-              } else if (index === 4) {
-                // Fünftes Bild: groß und breit
-                gridColumn = "span 7";
-                gridRow = "span 3";
-              } else if (index === 5) {
-                // Sechstes Bild: hoch rechts
-                gridColumn = "span 5";
-                gridRow = "span 3";
-              } else {
-                // Restliche Bilder: verschiedene Größen
-                const patterns = [
-                  { col: "span 4", row: "span 2" },
-                  { col: "span 8", row: "span 2" },
-                  { col: "span 6", row: "span 3" },
-                  { col: "span 6", row: "span 2" },
-                ];
-                const pattern = patterns[(index - 6) % patterns.length];
-                gridColumn = pattern.col;
-                gridRow = pattern.row;
+              // Auf Mobile: alle Bilder gleich groß (1 Spalte)
+              if (!isMobile) {
+                if (index === 0) {
+                  // Erstes Bild: groß und breit
+                  gridColumn = "span 8";
+                  gridRow = "span 3";
+                } else if (index === 1) {
+                  // Zweites Bild: hoch rechts
+                  gridColumn = "span 4";
+                  gridRow = "span 3";
+                } else if (index === 2) {
+                  // Drittes Bild: mittel
+                  gridColumn = "span 6";
+                  gridRow = "span 2";
+                } else if (index === 3) {
+                  // Viertes Bild: mittel
+                  gridColumn = "span 6";
+                  gridRow = "span 2";
+                } else if (index === 4) {
+                  // Fünftes Bild: groß und breit
+                  gridColumn = "span 7";
+                  gridRow = "span 3";
+                } else if (index === 5) {
+                  // Sechstes Bild: hoch rechts
+                  gridColumn = "span 5";
+                  gridRow = "span 3";
+                } else {
+                  // Restliche Bilder: verschiedene Größen
+                  const patterns = [
+                    { col: "span 4", row: "span 2" },
+                    { col: "span 8", row: "span 2" },
+                    { col: "span 6", row: "span 3" },
+                    { col: "span 6", row: "span 2" },
+                  ];
+                  const pattern = patterns[(index - 6) % patterns.length];
+                  gridColumn = pattern.col;
+                  gridRow = pattern.row;
+                }
               }
 
               return (
@@ -257,7 +272,7 @@ export default function ProjectDetailPage() {
                     gridRow,
                     borderRadius: "10px",
                     overflow: "hidden",
-                    minHeight: "200px",
+                    minHeight: isMobile ? "250px" : "200px",
                   }}
                 >
                   <Image
