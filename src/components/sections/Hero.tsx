@@ -50,11 +50,11 @@ function shuffle<T>(arr: T[]): T[] {
 }
 
 // ─── Animation timing ─────────────────────────────────────────────────────────
-// Each block animates in sequence. Base duration 0.55s, ease-out.
-// Delays:  locale 0s → h1 0.1s → icons 0.22s → text 0.3s → button 0.38s
-//          icon stagger adds 0.07s per icon on top of icons base delay.
-const DURATION = "0.55s";
-const EASE     = "cubic-bezier(0.16, 1, 0.3, 1)"; // expo-out feel
+// Each block animates in sequence. Base duration 1.2s, smooth ease-out.
+// Delays:  locale 0s → h1 0.15s → icons 0.35s → text 0.5s → button 0.65s
+//          icon stagger adds 0.1s per icon on top of icons base delay.
+const DURATION = "1.2s";
+const EASE     = "cubic-bezier(0.22, 1, 0.36, 1)"; // smooth expo-out
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function Hero() {
@@ -80,27 +80,54 @@ export default function Hero() {
   const videoWrapRef = useRef<HTMLDivElement>(null);
   const [videoH, setVideoH] = useState("250px");
   const [imgScale, setImgScale] = useState(1);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
+    let scrollY = 0;
+
     const onScroll = () => {
-      if (!videoWrapRef.current) return;
-      const top = videoWrapRef.current.getBoundingClientRect().top + window.scrollY;
-      const vh  = window.innerHeight;
-      const start = top - vh * 0.3;
-      const end   = top + vh * 0.5;
-      const raw   = (window.scrollY - start) / (end - start);
-      const t     = Math.min(1, Math.max(0, raw));
-      const px    = 250 + t * (vh - 250);
-      setVideoH(`${px}px`);
-      setImgScale(1 + t * 0.08);
+      if (rafRef.current) return;
+
+      rafRef.current = requestAnimationFrame(() => {
+        if (!videoWrapRef.current) {
+          rafRef.current = null;
+          return;
+        }
+
+        const rect = videoWrapRef.current.getBoundingClientRect();
+        const vh = window.innerHeight;
+
+        // More aggressive timing for faster, smoother growth
+        const elementTop = rect.top + scrollY;
+        const start = elementTop - vh * 0.8;
+        const end = elementTop + vh * 0.1;
+        const raw = (scrollY - start) / (end - start);
+        const t = Math.min(1, Math.max(0, raw));
+
+        // Cubic easing for smooth acceleration
+        const eased = t * t * (3 - 2 * t);
+
+        const px = 250 + eased * (vh - 250);
+        setVideoH(`${px}px`);
+        setImgScale(1 + eased * 0.08);
+
+        rafRef.current = null;
+      });
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    onScroll();
+    const updateScrollY = () => {
+      scrollY = window.scrollY;
+      onScroll();
+    };
+
+    window.addEventListener("scroll", updateScrollY, { passive: true });
+    window.addEventListener("resize", updateScrollY, { passive: true });
+    updateScrollY();
+
     return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("scroll", updateScrollY);
+      window.removeEventListener("resize", updateScrollY);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
@@ -120,16 +147,24 @@ export default function Hero() {
           from { transform: scaleX(0); }
           to   { transform: scaleX(1); }
         }
+        @keyframes dividerColorShift {
+          0% { background-color: var(--color-hover); }
+          70% { background-color: var(--color-hover); }
+          100% { background-color: #E9E9EA; }
+        }
         .hero-divider {
           transform-origin: left center;
           transform: scaleX(0);
-          animation: dividerGrow 1.2s ${EASE} forwards;
-          animation-delay: 0.46s;
+          background-color: var(--color-hover);
+          animation:
+            dividerGrow 1.4s ${EASE} forwards,
+            dividerColorShift 3.4s ${EASE} forwards;
+          animation-delay: 0.8s, 0.8s;
         }
         .hero-video {
           opacity: 0;
-          animation: heroFadeUp 0.6s ${EASE} forwards;
-          animation-delay: 1.66s;
+          animation: heroFadeUp 1s ${EASE} forwards;
+          animation-delay: 2.2s;
         }
       `}</style>
 
@@ -149,7 +184,7 @@ export default function Hero() {
           <span>GER</span>
         </div>
 
-        {/* ── H1 — delay 0.1s ─────────────────────────────────────────────── */}
+        {/* ── H1 — delay 0.15s ─────────────────────────────────────────────── */}
         <h1
           className="hero-animate heading"
           style={{
@@ -157,7 +192,7 @@ export default function Hero() {
             fontSize: "clamp(1.75rem, 5vw, 4.5rem)",
             lineHeight: 1.08,
             letterSpacing: "-0.02em",
-            animationDelay: "0.1s",
+            animationDelay: "0.15s",
           }}
         >
           Design mit <strong style={{ fontWeight: 700 }}>Relevanz</strong>.<br />
@@ -169,7 +204,7 @@ export default function Hero() {
           className="flex flex-col md:flex-row items-start md:items-center justify-between gap-10"
           style={{ marginTop: "clamp(24px, 4vw, 40px)" }}
         >
-          {/* Icons — stagger starting at delay 0.22s, each +0.07s */}
+          {/* Icons — stagger starting at delay 0.35s, each +0.1s */}
           <div
             className="flex items-center w-full md:w-auto"
             style={{
@@ -183,14 +218,14 @@ export default function Hero() {
               <div
                 key={id}
                 className="hero-animate shrink-0"
-                style={{ animationDelay: `${0.22 + i * 0.07}s` }}
+                style={{ animationDelay: `${0.35 + i * 0.1}s` }}
               >
                 <Icon size={isMobile ? 50 : 90} aria-label={label} />
               </div>
             ))}
           </div>
 
-          {/* Right column: text delay 0.3s, button delay 0.38s */}
+          {/* Right column: text delay 0.5s, button delay 0.65s */}
           <div className="max-w-[420px] w-full">
             <p
               className="hero-animate"
@@ -200,7 +235,7 @@ export default function Hero() {
                 fontSize: "clamp(0.9rem, 2vw, 1rem)",
                 lineHeight: 1.6,
                 color: "var(--color-text)",
-                animationDelay: "0.3s",
+                animationDelay: "0.5s",
               }}
             >
               <strong style={{ fontWeight: 700 }}>QLOUT</strong> Studio entwickelt
@@ -223,7 +258,7 @@ export default function Hero() {
                 background: "transparent",
                 textDecoration: "none",
                 whiteSpace: "nowrap",
-                animationDelay: "0.38s",
+                animationDelay: "0.65s",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement;
@@ -247,21 +282,19 @@ export default function Hero() {
         {/* ── Divider — grows left→right after last icon animates in ────────── */}
         <div
           className="hero-divider"
-          style={{ marginTop: "clamp(24px, 4vw, 40px)", height: "1px", backgroundColor: "#E9E9EA" }}
+          style={{ marginTop: "clamp(24px, 4vw, 40px)", height: "1px" }}
           role="separator"
           aria-hidden="true"
         />
 
         {/* ── Video / Key Visual — appears after divider finishes ────────────── */}
-        <div ref={videoWrapRef} className="hero-video" style={{ marginTop: "clamp(24px, 4vw, 40px)", paddingBottom: "clamp(40px, 6vw, 60px)" }}>
+        <div ref={videoWrapRef} className="hero-video" style={{ marginTop: "clamp(24px, 4vw, 40px)", paddingBottom: "clamp(40px, 6vw, 60px)", willChange: "auto" }}>
           <div
             style={{
               height: videoH,
               borderRadius: "10px",
               overflow: "hidden",
               position: "relative",
-              willChange: "height",
-              transition: "height 0.05s linear",
             }}
           >
             <div
@@ -270,7 +303,6 @@ export default function Hero() {
                 inset: 0,
                 transform: `scale(${imgScale})`,
                 transformOrigin: "center center",
-                willChange: "transform",
               }}
             >
               <Image

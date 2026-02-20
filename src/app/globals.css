@@ -92,6 +92,19 @@ body {
 }
 .focus-link:hover { opacity: 0.75; }
 
+/* ─── Projects Grid ────────────────────────────────────────── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+@media (min-width: 768px) {
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ─── Component Utilities ──────────────────────────────────── */
 @layer components {
   @reference "tailwindcss";

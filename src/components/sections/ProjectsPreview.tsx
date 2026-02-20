@@ -2,54 +2,17 @@
 
 import Image from "next/image";
 import Container from "@/components/ui/Container";
-
-// ─── Project Data ─────────────────────────────────────────────────────────────
-interface Project {
-  id:     string;
-  slug:   string;
-  slogan: string;
-  name:   string;
-  image:  string;
-}
-
-const PROJECTS: Project[] = [
-  {
-    id:     "p1",
-    slug:   "viper-beer",
-    slogan: "Brand Slogan 01",
-    name:   "Beispiel Brand 01",
-    image:  "/images/b6e1cfb7e6dca30bb1d10f654801df2b.jpg",
-  },
-  {
-    id:     "p2",
-    slug:   "sour-sour",
-    slogan: "Brand Slogan 02",
-    name:   "Beispiel Brand 02",
-    image:  "/images/a3b4db9389d9140cbe3b3ad2545516eb.jpg",
-  },
-  {
-    id:     "p3",
-    slug:   "rectangle-32",
-    slogan: "Brand Slogan 03",
-    name:   "Beispiel Brand 03",
-    image:  "/images/Rectangle 32.png",
-  },
-  {
-    id:     "p4",
-    slug:   "rectangle-30",
-    slogan: "Brand Slogan 04",
-    name:   "Beispiel Brand 04",
-    image:  "/images/Rectangle 30.png",
-  },
-];
+import { getActiveProjects } from "@/data/projects";
 
 const CARD_W = 480;   // px — card width
 const GAP    = 16;    // px — gap between cards
-const STEP   = CARD_W + GAP; // px per card slot
-const SET_W  = PROJECTS.length * STEP; // total width of one set
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProjectsPreview() {
+  const PROJECTS = getActiveProjects();
+  const STEP = CARD_W + GAP;
+  const SET_W = PROJECTS.length * STEP;
+
   // Triple the slides so the loop is always seamless
   const slides = [...PROJECTS, ...PROJECTS, ...PROJECTS];
 
@@ -156,16 +119,16 @@ export default function ProjectsPreview() {
         {/* ── Carousel — full viewport width ── */}
         <div style={{ overflow: "hidden", width: "100%", maxWidth: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
           <div className="projects-track">
-            {slides.map(({ id, slug, slogan, name, image }, i) => (
+            {slides.map((project, i) => (
               <a
-                key={`${id}-${i}`}
-                href={`/projekte/${slug}`}
+                key={`${project.id}-${i}`}
+                href={`/projekte/${project.slug}`}
                 className="project-card"
                 draggable="false"
               >
                 <Image
-                  src={image}
-                  alt={slogan}
+                  src={project.heroImage}
+                  alt={project.title}
                   fill
                   sizes="480px"
                   style={{ objectFit: "cover" }}
@@ -190,7 +153,7 @@ export default function ProjectsPreview() {
                     letterSpacing: "0.01em",
                     color: "#fff",
                     margin: 0,
-                  }}>{slogan}</p>
+                  }}>{project.title}</p>
                   <p style={{
                     fontFamily: "var(--font-sans)",
                     fontWeight: 400,
@@ -199,7 +162,7 @@ export default function ProjectsPreview() {
                     letterSpacing: "0.04em",
                     color: "rgba(255,255,255,0.7)",
                     margin: "4px 0 0",
-                  }}>{name}</p>
+                  }}>{project.client}</p>
                 </div>
               </a>
             ))}
