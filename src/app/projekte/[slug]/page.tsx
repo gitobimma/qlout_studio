@@ -111,6 +111,34 @@ export default function ProjectDetailPage() {
         </Container>
       </section>
 
+      {/* Website Link */}
+      {project.website && (
+        <section style={{ paddingBottom: "clamp(40px, 6vw, 60px)" }}>
+          <Container>
+            <a
+              href={project.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                fontFamily: "var(--font-sans)",
+                fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
+                fontWeight: 400,
+                color: "var(--color-hover)",
+                textDecoration: "none",
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.7")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            >
+              → Webseite besuchen
+            </a>
+          </Container>
+        </section>
+      )}
+
       {/* Project Description */}
       <section style={{ paddingBottom: "clamp(60px, 8vw, 80px)" }}>
         <Container>
@@ -169,68 +197,83 @@ export default function ProjectDetailPage() {
         </Container>
       </section>
 
-      {/* Project Images Grid */}
+      {/* Project Images Bento Grid */}
       <section style={{ paddingBottom: "clamp(60px, 8vw, 100px)" }}>
         <Container>
           <div style={{
             display: "grid",
-            gridTemplateColumns: "1fr",
-            gap: "clamp(16px, 2vw, 24px)",
+            gridTemplateColumns: "repeat(12, 1fr)",
+            gridAutoRows: "200px",
+            gap: "clamp(12px, 1.5vw, 20px)",
           }}>
-            {project.images.slice(1).map((image, index) => (
-              <div
-                key={index}
-                style={{
-                  position: "relative",
-                  width: "100%",
-                  aspectRatio: index === 0 ? "16 / 9" : "3 / 2",
-                  borderRadius: "10px",
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  src={image.url}
-                  alt={image.alt}
-                  fill
-                  sizes="(max-width: 1400px) 100vw, 1400px"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-            ))}
+            {project.images.slice(1).map((image, index) => {
+              // Bento Grid Pattern - verschiedene Größen für interessantes Layout
+              let gridColumn = "span 12";
+              let gridRow = "span 2";
+
+              if (index === 0) {
+                // Erstes Bild: groß und breit
+                gridColumn = "span 8";
+                gridRow = "span 3";
+              } else if (index === 1) {
+                // Zweites Bild: hoch rechts
+                gridColumn = "span 4";
+                gridRow = "span 3";
+              } else if (index === 2) {
+                // Drittes Bild: mittel
+                gridColumn = "span 6";
+                gridRow = "span 2";
+              } else if (index === 3) {
+                // Viertes Bild: mittel
+                gridColumn = "span 6";
+                gridRow = "span 2";
+              } else if (index === 4) {
+                // Fünftes Bild: groß und breit
+                gridColumn = "span 7";
+                gridRow = "span 3";
+              } else if (index === 5) {
+                // Sechstes Bild: hoch rechts
+                gridColumn = "span 5";
+                gridRow = "span 3";
+              } else {
+                // Restliche Bilder: verschiedene Größen
+                const patterns = [
+                  { col: "span 4", row: "span 2" },
+                  { col: "span 8", row: "span 2" },
+                  { col: "span 6", row: "span 3" },
+                  { col: "span 6", row: "span 2" },
+                ];
+                const pattern = patterns[(index - 6) % patterns.length];
+                gridColumn = pattern.col;
+                gridRow = pattern.row;
+              }
+
+              return (
+                <div
+                  key={index}
+                  style={{
+                    position: "relative",
+                    gridColumn,
+                    gridRow,
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    minHeight: "200px",
+                  }}
+                >
+                  <Image
+                    src={image.url}
+                    alt={image.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1400px) 50vw, 700px"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              );
+            })}
           </div>
         </Container>
       </section>
 
-      {/* Website Link */}
-      {project.website && (
-        <section style={{ paddingBottom: "clamp(40px, 6vw, 60px)" }}>
-          <Container>
-            <div style={{ textAlign: "center" }}>
-              <a
-                href={project.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "12px",
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "0.9375rem",
-                  fontWeight: 400,
-                  color: "var(--color-hover)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "4px",
-                  transition: "opacity 0.15s",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.75")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-              >
-                → Webseite besuchen
-              </a>
-            </div>
-          </Container>
-        </section>
-      )}
     </main>
   );
 }
