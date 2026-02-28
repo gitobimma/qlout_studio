@@ -1,6 +1,7 @@
 "use client";
 
 import Container from "@/components/ui/Container";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const CARDS = [
   {
@@ -30,6 +31,8 @@ const CARDS = [
 ];
 
 export default function Principles() {
+  const sectionRef = useScrollReveal<HTMLElement>();
+
   return (
     <>
       <style>{`
@@ -73,10 +76,10 @@ export default function Principles() {
         }
       `}</style>
 
-      <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
+      <section ref={sectionRef} style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
         <Container>
 
-          <div style={{ textAlign: "right", marginBottom: "clamp(32px, 5vw, 48px)" }}>
+          <div className="reveal" style={{ textAlign: "right", marginBottom: "clamp(32px, 5vw, 48px)" }}>
             <h2 style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 700,
@@ -100,8 +103,13 @@ export default function Principles() {
           </div>
 
           <div className="principles-row" style={{ display: "flex", gap: "12px" }}>
-            {CARDS.map(({ id, heading, text, accent }) => (
-              <div key={id} className={`principles-card${accent ? " accent" : ""}`}>
+            {CARDS.map(({ id, heading, text, accent }, i) => (
+              <div
+                key={id}
+                className="reveal"
+                style={{ flex: 1, minWidth: 0, ["--reveal-delay" as string]: `${0.1 + i * 0.1}s` }}
+              >
+              <div className={`principles-card${accent ? " accent" : ""}`} style={{ height: "100%" }}>
                 <div>
                   <p style={{
                     fontFamily: "var(--font-sans)",
@@ -125,6 +133,7 @@ export default function Principles() {
                     {text}
                   </p>
                 </div>
+              </div>
               </div>
             ))}
           </div>

@@ -2,6 +2,7 @@
 
 import Container from "@/components/ui/Container";
 import ProjectsSlider from "@/components/sections/ProjectsSlider";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 function ArrowIcon() {
   return (
@@ -25,62 +26,66 @@ function ArrowIcon() {
 }
 
 export default function BrandingPage() {
+  const heroRef = useScrollReveal<HTMLElement>();
+
   return (
     <main>
       {/* Hero Section */}
-      <section style={{
-        paddingTop: "clamp(80px, 10vw, 140px)",
-        paddingBottom: "clamp(60px, 8vw, 100px)",
-        backgroundColor: "var(--color-bg)"
-      }}>
+      <section
+        ref={heroRef}
+        style={{
+          paddingTop: "clamp(80px, 10vw, 140px)",
+          paddingBottom: "clamp(60px, 8vw, 100px)",
+          backgroundColor: "var(--color-bg)"
+        }}
+      >
         <Container>
-          <h1 style={{
-            fontFamily: "var(--font-sans)",
-            fontWeight: 400,
-            fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.1,
-            color: "var(--color-text)",
-            marginBottom: "clamp(20px, 3vw, 40px)",
-          }}>
+          <h1
+            className="reveal"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontWeight: 400,
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+              color: "var(--color-text)",
+              marginBottom: "clamp(20px, 3vw, 40px)",
+            }}
+          >
             Identität mit Substanz.
           </h1>
 
           {/* Tags */}
-          <div style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "clamp(12px, 2vw, 20px)",
-            marginBottom: "clamp(30px, 4vw, 50px)",
-          }}>
-            <span style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
-              color: "var(--color-hover)",
-            }}>
+          <div
+            className="reveal"
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "clamp(12px, 2vw, 20px)",
+              marginBottom: "clamp(30px, 4vw, 50px)",
+              ["--reveal-delay" as string]: "0.1s",
+            }}
+          >
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "clamp(0.875rem, 1.5vw, 1rem)", color: "var(--color-hover)" }}>
               Identität sichtbar machen.
             </span>
-            <span style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
-              color: "var(--color-hover)",
-            }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "clamp(0.875rem, 1.5vw, 1rem)", color: "var(--color-hover)" }}>
               Wiedererkennung schaffen.
             </span>
-            <span style={{
-              fontFamily: "var(--font-sans)",
-              fontSize: "clamp(0.875rem, 1.5vw, 1rem)",
-              color: "var(--color-hover)",
-            }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: "clamp(0.875rem, 1.5vw, 1rem)", color: "var(--color-hover)" }}>
               Vertrauen durch Klarheit.
             </span>
           </div>
 
           {/* Description */}
-          <div style={{
-            maxWidth: "800px",
-            marginBottom: "clamp(40px, 5vw, 60px)",
-          }}>
+          <div
+            className="reveal"
+            style={{
+              maxWidth: "800px",
+              marginBottom: "clamp(40px, 5vw, 60px)",
+              ["--reveal-delay" as string]: "0.2s",
+            }}
+          >
             <p style={{
               fontFamily: "var(--font-sans)",
               fontSize: "clamp(1rem, 1.8vw, 1.125rem)",
@@ -100,7 +105,8 @@ export default function BrandingPage() {
             </p>
           </div>
 
-          {/* CTA Button - Secondary Style from Hero */}
+          {/* CTA Button */}
+          <div className="reveal" style={{ display: "inline-flex", ["--reveal-delay" as string]: "0.3s" }}>
           <a
             href="/projekte"
             className="inline-flex items-center transition-colors duration-150"
@@ -133,6 +139,7 @@ export default function BrandingPage() {
             <ArrowIcon />
             PROJEKTE ANSEHEN
           </a>
+          </div>
         </Container>
       </section>
 

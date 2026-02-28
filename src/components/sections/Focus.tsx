@@ -8,6 +8,7 @@ import {
   UXIcon,
   WebIcon,
 } from "@/components/ui/ServiceIcons";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 function ArrowIcon() {
   return (
@@ -39,6 +40,7 @@ const SERVICES = [
 
 export default function Focus() {
   const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useScrollReveal<HTMLElement>();
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -49,10 +51,11 @@ export default function Focus() {
 
   return (
     <>
-      <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
+      <section ref={sectionRef} style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
         <Container>
 
           <h2
+            className="reveal"
             style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 700,
@@ -67,8 +70,19 @@ export default function Focus() {
           </h2>
 
           <div className="focus-grid">
-            {SERVICES.map(({ id, label, href, Icon }) => (
-              <div key={id} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "clamp(16px, 2vw, 20px)" }}>
+            {SERVICES.map(({ id, label, href, Icon }, i) => (
+              <div
+                key={id}
+                className="reveal"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  gap: "clamp(16px, 2vw, 20px)",
+                  ["--reveal-delay" as string]: `${0.1 + i * 0.1}s`,
+                }}
+              >
                 <Icon size={isMobile ? 60 : 80} style={{ color: "var(--color-text)" }} />
                 <h3
                   style={{

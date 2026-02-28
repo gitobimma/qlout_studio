@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import { getActiveProjects } from "@/data/projects";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const CARD_W = 480;   // px — card width
 const GAP    = 16;    // px — gap between cards
@@ -11,6 +12,7 @@ const GAP    = 16;    // px — gap between cards
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProjectsPreview() {
   const trackRef = useRef<HTMLDivElement>(null);
+  const headerRef = useScrollReveal<HTMLDivElement>();
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -118,8 +120,8 @@ export default function ProjectsPreview() {
 
         {/* ── Header — right-aligned ── */}
         <Container>
-          <div style={{ textAlign: "right", marginBottom: "clamp(32px, 5vw, 48px)" }}>
-            <h2 style={{
+          <div ref={headerRef} style={{ textAlign: "right", marginBottom: "clamp(32px, 5vw, 48px)" }}>
+            <h2 className="reveal" style={{
               fontFamily: "var(--font-sans)",
               fontWeight: 700,
               fontSize: "clamp(1.75rem, 5vw, 3.75rem)",
@@ -131,25 +133,28 @@ export default function ProjectsPreview() {
             }}>
               Ausgewählte<br />Arbeiten
             </h2>
-            <p style={{
+            <p className="reveal" style={{
               fontFamily: "var(--font-sans)",
               fontSize: "clamp(0.9rem, 2vw, 1rem)",
               color: "var(--color-text)",
               marginTop: "clamp(12px, 2vw, 16px)",
               marginBottom: "12px",
+              ["--reveal-delay" as string]: "0.1s",
             }}>
               Branding, UX/UI und Weblösungen im Einsatz.
             </p>
-            <a href="/projekte" className="projects-link">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                aria-hidden="true" style={{ flexShrink: 0 }}>
-                <polyline points="15 10 20 15 15 20" />
-                <path d="M4 4v7a4 4 0 0 0 4 4h12" />
-              </svg>
-              Mehr erfahren
-            </a>
+            <span className="reveal" style={{ display: "inline-flex", ["--reveal-delay" as string]: "0.2s" }}>
+              <a href="/projekte" className="projects-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                  viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <polyline points="15 10 20 15 15 20" />
+                  <path d="M4 4v7a4 4 0 0 0 4 4h12" />
+                </svg>
+                Mehr erfahren
+              </a>
+            </span>
           </div>
         </Container>
 

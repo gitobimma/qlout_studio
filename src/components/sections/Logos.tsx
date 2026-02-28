@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Container from "@/components/ui/Container";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const BRANDS = [
   { id: "decix",         label: "DE-CIX",         src: "/icons/brands/decix.svg" },
@@ -10,21 +13,25 @@ const BRANDS = [
 ];
 
 export default function Logos() {
+  const sectionRef = useScrollReveal<HTMLElement>();
+
   return (
-    <section style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
+    <section ref={sectionRef} style={{ paddingTop: "clamp(60px, 8vw, 80px)", paddingBottom: "clamp(60px, 8vw, 80px)" }}>
       <Container>
 
-        <h2 style={{
-          fontFamily: "var(--font-sans)",
-          fontWeight: 700,
-          fontSize: "clamp(1.5rem, 4vw, 3rem)",
-          textTransform: "uppercase",
-          letterSpacing: "-0.02em",
-          lineHeight: 1.1,
-          color: "var(--color-text)",
-          maxWidth: "640px",
-          margin: "0 0 clamp(40px, 6vw, 60px)",
-        }}>
+        <h2
+          className="reveal"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontWeight: 700,
+            fontSize: "clamp(1.5rem, 4vw, 3rem)",
+            textTransform: "uppercase",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.1,
+            color: "var(--color-text)",
+            maxWidth: "640px",
+            margin: "0 0 clamp(40px, 6vw, 60px)",
+          }}>
           Für <strong style={{ fontWeight: 700 }}>Unternehmen</strong> aus Industrie,{" "}
           Handel und Technologie.
         </h2>
@@ -36,14 +43,19 @@ export default function Logos() {
           flexWrap: "wrap",
           gap: "clamp(32px, 5vw, 40px) clamp(20px, 3vw, 24px)",
         }}>
-          {BRANDS.map(({ id, label, src }) => (
-            <div key={id} style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "12px",
-              width: "clamp(100px, 15vw, 120px)",
-            }}>
+          {BRANDS.map(({ id, label, src }, i) => (
+            <div
+              key={id}
+              className="reveal"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "12px",
+                width: "clamp(100px, 15vw, 120px)",
+                ["--reveal-delay" as string]: `${0.1 + i * 0.08}s`,
+              }}
+            >
               <div style={{
                 width: "100%",
                 height: "clamp(50px, 8vw, 60px)",

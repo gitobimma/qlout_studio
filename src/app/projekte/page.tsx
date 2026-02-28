@@ -4,11 +4,14 @@ import Container from "@/components/ui/Container";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { getActiveProjects } from "@/data/projects";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export default function ProjektePage() {
   const PROJECTS = getActiveProjects();
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [isDesktop, setIsDesktop] = useState(true);
+  const heroRef = useScrollReveal<HTMLElement>();
+  const gridRef = useScrollReveal<HTMLElement>();
 
   useEffect(() => {
     const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
@@ -20,44 +23,52 @@ export default function ProjektePage() {
   return (
     <main>
       {/* Hero Section */}
-      <section style={{ paddingTop: "clamp(60px, 8vw, 120px)", paddingBottom: "clamp(40px, 6vw, 60px)" }}>
+      <section ref={heroRef} style={{ paddingTop: "clamp(60px, 8vw, 120px)", paddingBottom: "clamp(40px, 6vw, 60px)" }}>
         <Container>
-          <h1 style={{
-            fontFamily: "var(--font-sans)",
-            fontWeight: 400,
-            fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.1,
-            color: "var(--color-text)",
-            margin: "0 0 clamp(16px, 2vw, 24px)",
-          }}>
+          <h1
+            className="reveal"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontWeight: 400,
+              fontSize: "clamp(2.5rem, 6vw, 5rem)",
+              letterSpacing: "-0.02em",
+              lineHeight: 1.1,
+              color: "var(--color-text)",
+              margin: "0 0 clamp(16px, 2vw, 24px)",
+            }}
+          >
             Projekte
           </h1>
-          <p style={{
-            fontFamily: "var(--font-sans)",
-            fontSize: "clamp(1rem, 2vw, 1.125rem)",
-            lineHeight: 1.6,
-            color: "var(--color-text)",
-            maxWidth: "600px",
-            margin: 0,
-          }}>
+          <p
+            className="reveal"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "clamp(1rem, 2vw, 1.125rem)",
+              lineHeight: 1.6,
+              color: "var(--color-text)",
+              maxWidth: "600px",
+              margin: 0,
+              ["--reveal-delay" as string]: "0.12s",
+            }}
+          >
             Digitale Markenplattformen aus <strong style={{ fontWeight: 700 }}>Branding, UX/UI</strong> und <strong style={{ fontWeight: 700 }}>Technologie</strong>.
           </p>
         </Container>
       </section>
 
       {/* Projects Grid */}
-      <section style={{ paddingBottom: "clamp(60px, 8vw, 120px)" }}>
+      <section ref={gridRef} style={{ paddingBottom: "clamp(60px, 8vw, 120px)" }}>
         <Container>
           <div style={{
             display: "grid",
             gridTemplateColumns: isDesktop ? "repeat(2, 1fr)" : "1fr",
             gap: "clamp(16px, 2vw, 24px)",
           }}>
-            {PROJECTS.map((project) => (
+            {PROJECTS.map((project, i) => (
               <a
                 key={project.id}
                 href={`/projekte/${project.slug}`}
+                className="reveal"
                 onMouseEnter={() => setHoveredId(project.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 style={{
@@ -68,6 +79,7 @@ export default function ProjektePage() {
                   display: "block",
                   textDecoration: "none",
                   cursor: "pointer",
+                  ["--reveal-delay" as string]: `${i * 0.08}s`,
                 }}
               >
                 {/* Image */}
