@@ -107,16 +107,20 @@ export default function ProjectDetailPage() {
           <div style={{
             position: "relative",
             width: "100%",
-            aspectRatio: "16 / 9",
             borderRadius: "10px",
-            overflow: "hidden",
+            overflow: "hidden"
           }}>
             <Image
               src={project.heroImage}
               alt={project.title}
-              fill
+              width={1400}
+              height={800}
               sizes="(max-width: 1400px) 100vw, 1400px"
-              style={{ objectFit: "cover" }}
+              style={{
+                width: "100%",
+                height: "auto",
+                display: "block"
+              }}
               priority
             />
           </div>
@@ -170,7 +174,7 @@ export default function ProjectDetailPage() {
                 color: "var(--color-text)",
                 margin: "0 0 clamp(16px, 2vw, 24px)",
               }}>
-                Name des Unternehmens
+                Über das Projekt
               </h2>
               <p style={{
                 fontFamily: "var(--font-sans)",

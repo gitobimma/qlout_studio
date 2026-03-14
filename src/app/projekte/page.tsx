@@ -90,7 +90,7 @@ export default function ProjektePage() {
                   transform: hoveredId === project.id ? "scale(1.05)" : "scale(1)",
                 }}>
                   <Image
-                    src={project.heroImage}
+                    src={project.sliderImage || project.heroImage}
                     alt={project.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"

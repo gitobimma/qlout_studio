@@ -78,8 +78,7 @@ export default function Hero() {
 
   // ── Video scroll-expand ──────────────────────────────────────────────────
   const videoWrapRef = useRef<HTMLDivElement>(null);
-  const [videoH, setVideoH] = useState("250px");
-  const [imgScale, setImgScale] = useState(1);
+  const [videoH, setVideoH] = useState("450px");
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -97,6 +96,10 @@ export default function Hero() {
         const rect = videoWrapRef.current.getBoundingClientRect();
         const vh = window.innerHeight;
 
+        // Calculate 16:9 height based on container width (max 1400px from Container component)
+        const containerWidth = Math.min(videoWrapRef.current.offsetWidth, 1400);
+        const videoHeight16x9 = containerWidth * (9 / 16);
+
         // More aggressive timing for faster, smoother growth
         const elementTop = rect.top + scrollY;
         const start = elementTop - vh * 0.8;
@@ -107,9 +110,10 @@ export default function Hero() {
         // Cubic easing for smooth acceleration
         const eased = t * t * (3 - 2 * t);
 
-        const px = 250 + eased * (vh - 250);
+        // Grow from 350px to actual 16:9 video height
+        const minHeight = 450;
+        const px = minHeight + eased * (videoHeight16x9 - minHeight);
         setVideoH(`${px}px`);
-        setImgScale(1 + eased * 0.08);
 
         rafRef.current = null;
       });
@@ -295,23 +299,31 @@ export default function Hero() {
               borderRadius: "10px",
               overflow: "hidden",
               position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#000"
             }}
           >
             <div
               style={{
-                position: "absolute",
-                inset: 0,
-                transform: `scale(${imgScale})`,
-                transformOrigin: "center center",
+                position: "relative",
+                width: "100%",
+                paddingBottom: "56.25%", // 16:9 aspect ratio
               }}
             >
-              <Image
-                src="/images/Rectangle 32.png"
-                alt="QLOUT Studio – Key Visual"
-                fill
-                sizes="(max-width: 1400px) 100vw, 1400px"
-                style={{ objectFit: "cover" }}
-                priority
+              <iframe
+                src="https://player.vimeo.com/video/1173543282?badge=0&autopause=0&autoplay=1&loop=1&background=1&muted=1&controls=0"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write"
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%"
+                }}
+                title="Show Reel Qlout"
               />
             </div>
             {/* 40% black overlay */}

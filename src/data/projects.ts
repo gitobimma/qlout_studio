@@ -8,7 +8,8 @@ export interface Project {
   client: string;
   subtitle: string;
   tags: string[];
-  heroImage: string;
+  heroImage: string; // Header image on detail page
+  sliderImage?: string; // Optional: different image for slider (if not set, uses heroImage)
 
   // Content
   description: string;
@@ -31,8 +32,102 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     id: "1",
-    slug: "studioforme",
+    slug: "foliage-dreams",
     active: true,
+    title: "Foliage Dreams",
+    client: "E-Commerce Pflanzenhandel",
+    subtitle: "Von der Idee zur Marke",
+    tags: ["Branding", "Design", "E-Commerce"],
+    heroImage: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-Header_2.webp",
+    sliderImage: "/images/referenzen/foliagedreams/Referenz-Foliage-Dreams-Basis.webp",
+    description: "Aus einem jungen Startup ohne visuelle Identität wurde eine professionelle Marke mit eigenem Onlineshop und klarer Positionierung im Markt für exotische Pflanzen.",
+    challenge: "Das Startup Foliage Dreams hatte keine visuelle Identität und benötigte eine professionelle Markenplattform, um sich im wettbewerbsintensiven Markt für exotische Pflanzen zu positionieren.",
+    solution: "Entwicklung einer kompletten Markenidentität von Grund auf – von Logo über Farbwelt bis hin zum vollständigen Shopify-Onlineshop mit durchgängigem Corporate Design.",
+    images: [
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-1.webp",
+        alt: "Foliage Dreams Branding Detail 1"
+      },
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-2.webp",
+        alt: "Foliage Dreams Branding Detail 2"
+      },
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-3.webp",
+        alt: "Foliage Dreams Branding Detail 3"
+      },
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-4.webp",
+        alt: "Foliage Dreams Shop Interface"
+      },
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-5.webp",
+        alt: "Foliage Dreams Product View"
+      },
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-6.webp",
+        alt: "Foliage Dreams Detail 6"
+      },
+      {
+        url: "/images/referenzen/foliagedreams/Ref-Foliage-Dreams-7.webp",
+        alt: "Foliage Dreams Detail 7"
+      }
+    ],
+    year: "2024",
+    services: ["Branding & Design"],
+    website: "https://foliagedreams.com/"
+  },
+  {
+    id: "2",
+    slug: "bw-krings",
+    active: true,
+    title: "BW-Krings",
+    client: "Online Shop für Bundeswehr und Outdoor",
+    subtitle: "E-Commerce Relaunch",
+    tags: ["E-Commerce", "Branding", "Web"],
+    heroImage: "/images/referenzen/bw-krings/Ref-BW-Krings-Header_1.webp",
+    sliderImage: "/images/referenzen/bw-krings/Referenz-BW-Krings-Basis_9.webp",
+    description: "Vom stagnierenden Standard-Shop zur eigenständigen Marke mit automatisierten Prozessen und messbarem Wachstum – ein strategischer Relaunch mit Fokus auf Performance und Branding.",
+    challenge: "Der bestehende Online-Shop war technisch veraltet und hatte keine eigenständige Markenidentität. Die Prozesse waren nicht automatisiert, was zu ineffizienten Arbeitsabläufen und stagnierendem Wachstum führte.",
+    solution: "Kompletter strategischer Relaunch auf JTL-Basis mit Fokus auf Performance-Optimierung, automatisierte Prozesse und Entwicklung einer starken, eigenständigen Markenidentität für messbares Wachstum.",
+    images: [
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-2.webp",
+        alt: "BW-Krings Shop Interface"
+      },
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-3.webp",
+        alt: "BW-Krings Product View"
+      },
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-4.webp",
+        alt: "BW-Krings Detail 4"
+      },
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-5.webp",
+        alt: "BW-Krings Detail 5"
+      },
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-6.webp",
+        alt: "BW-Krings Detail 6"
+      },
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-7.webp",
+        alt: "BW-Krings Detail 7"
+      },
+      {
+        url: "/images/referenzen/bw-krings/Ref-BW-Krings-8.webp",
+        alt: "BW-Krings Detail 8"
+      }
+    ],
+    year: "2024",
+    services: ["E-Commerce", "Branding", "Web Development"],
+    website: "https://bw-krings.de"
+  },
+  {
+    id: "studioforme",
+    slug: "studioforme",
+    active: false,
     title: "Projektbezogene Kernbotschaft",
     client: "Unternehmen GmbH",
     subtitle: "Digitale Markenplattform für einen technischen Mittelständler",
@@ -81,9 +176,9 @@ export const PROJECTS: Project[] = [
     website: "https://example.com"
   },
   {
-    id: "2",
+    id: "viper-beer",
     slug: "viper-beer",
-    active: true,
+    active: false,
     title: "Projektbezogene Kernbotschaft",
     client: "Beispiel Brand 01",
     subtitle: "Branding & Packaging Design",
@@ -122,9 +217,9 @@ export const PROJECTS: Project[] = [
     services: ["Branding", "Packaging Design"]
   },
   {
-    id: "3",
+    id: "sour-sour",
     slug: "sour-sour",
-    active: true,
+    active: false,
     title: "Projektbezogene Kernbotschaft",
     client: "Beispiel Brand 01",
     subtitle: "Craft Beer Branding",
@@ -167,9 +262,9 @@ export const PROJECTS: Project[] = [
     services: ["Branding", "Visual Identity"]
   },
   {
-    id: "4",
+    id: "food-app",
     slug: "food-app",
-    active: true,
+    active: false,
     title: "Projektbezogene Kernbotschaft",
     client: "Beispiel Brand 01",
     subtitle: "Food Delivery App Design",

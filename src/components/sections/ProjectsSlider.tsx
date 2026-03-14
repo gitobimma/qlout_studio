@@ -1,23 +1,16 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import { getActiveProjects, type Project } from "@/data/projects";
+import { getActiveProjects } from "@/data/projects";
 
-const CARD_W = 750;   // px — card width (noch größer für Leistungsseiten)
-const GAP    = 24;    // px — gap between cards
+const CARD_W = 750;
+const GAP = 24;
 
 interface ProjectsSliderProps {
   filterTags?: string[];
 }
 
 export default function ProjectsSlider({ filterTags }: ProjectsSliderProps) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  // Get all active projects or filter by tags
   let PROJECTS = getActiveProjects();
 
   if (filterTags && filterTags.length > 0) {
@@ -30,7 +23,6 @@ export default function ProjectsSlider({ filterTags }: ProjectsSliderProps) {
     );
   }
 
-  // If no projects match, return nothing
   if (PROJECTS.length === 0) {
     return null;
   }
@@ -38,65 +30,17 @@ export default function ProjectsSlider({ filterTags }: ProjectsSliderProps) {
   const STEP = CARD_W + GAP;
   const SET_W = PROJECTS.length * STEP;
 
-  // Triple the slides so the loop is always seamless
+  // Triple slides for seamless loop
   const slides = [...PROJECTS, ...PROJECTS, ...PROJECTS];
-
-  // Drag handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (!trackRef.current) return;
-    setIsDragging(true);
-    setStartX(e.pageX - trackRef.current.offsetLeft);
-    setScrollLeft(trackRef.current.scrollLeft);
-    trackRef.current.style.cursor = 'grabbing';
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-    if (trackRef.current) {
-      trackRef.current.style.cursor = 'grab';
-    }
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    if (trackRef.current) {
-      trackRef.current.style.cursor = 'grab';
-    }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !trackRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - trackRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Scroll speed
-    trackRef.current.scrollLeft = scrollLeft - walk;
-  };
 
   return (
     <>
       <style>{`
-        @keyframes ticker-slider {
-          from { transform: translateX(0); }
-          to   { transform: translateX(-${SET_W}px); }
-        }
-
-        .projects-slider-track {
-          display: flex;
-          gap: ${GAP}px;
-          width: max-content;
-          animation: ticker-slider ${PROJECTS.length * 10}s linear infinite;
-          will-change: transform;
-        }
-
         @media (max-width: 768px) {
           .project-slider-card { width: 72vw !important; }
         }
         @media (max-width: 480px) {
           .project-slider-card { width: 85vw !important; }
-        }
-
-        .projects-slider-track:hover {
-          animation-play-state: paused;
         }
 
         .project-slider-card {
@@ -119,17 +63,34 @@ export default function ProjectsSlider({ filterTags }: ProjectsSliderProps) {
         }
       `}</style>
 
-      <div style={{ overflow: "hidden", width: "100%", maxWidth: "100vw", position: "relative", left: "50%", transform: "translateX(-50%)", marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }}>
+      <div style={{
+        overflow: "hidden",
+        width: "100%",
+        maxWidth: "100vw",
+        position: "relative",
+        left: "50%",
+        transform: "translateX(-50%)",
+        marginLeft: "calc(-50vw + 50%)",
+        marginRight: "calc(-50vw + 50%)"
+      }}>
         <div
           ref={trackRef}
-          className="projects-slider-track"
           onMouseDown={handleMouseDown}
-          onMouseLeave={handleMouseLeave}
-          onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleDragEnd}
           style={{
+            display: 'flex',
+            gap: `${GAP}px`,
+            width: 'max-content',
+            padding: '0 20px',
+            transform: `translateX(${translateX}px)`,
             cursor: isDragging ? 'grabbing' : 'grab',
-            userSelect: 'none'
+            userSelect: 'none',
+            willChange: 'transform'
           }}
         >
           {slides.map((project, i) => (
@@ -139,13 +100,13 @@ export default function ProjectsSlider({ filterTags }: ProjectsSliderProps) {
               className="project-slider-card"
               draggable="false"
               onClick={(e) => {
-                if (isDragging) {
+                if (clickPrevented) {
                   e.preventDefault();
                 }
               }}
             >
               <Image
-                src={project.heroImage}
+                src={project.sliderImage || project.heroImage}
                 alt={project.title}
                 fill
                 sizes="750px"
