@@ -213,78 +213,44 @@ export default function ProjectDetailPage() {
         </Container>
       </section>
 
-      {/* Project Images Bento Grid */}
+      {/* Project Images Gallery */}
       <section style={{ paddingBottom: "clamp(60px, 8vw, 100px)" }}>
         <Container>
           <div style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "repeat(12, 1fr)",
-            gridAutoRows: isMobile ? "250px" : "200px",
-            gap: isMobile ? "16px" : "clamp(12px, 1.5vw, 20px)",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)",
+            gap: isMobile ? "16px" : "clamp(20px, 2.5vw, 40px)",
+            rowGap: isMobile ? "16px" : "clamp(40px, 5vw, 60px)"
           }}>
             {project.images.map((image, index) => {
-              // Bento Grid Pattern - verschiedene Größen für interessantes Layout
-              let gridColumn = "span 12";
-              let gridRow = "span 2";
-
-              // Auf Mobile: alle Bilder gleich groß (1 Spalte)
-              if (!isMobile) {
-                if (index === 0) {
-                  // Erstes Bild: groß und breit
-                  gridColumn = "span 8";
-                  gridRow = "span 3";
-                } else if (index === 1) {
-                  // Zweites Bild: hoch rechts
-                  gridColumn = "span 4";
-                  gridRow = "span 3";
-                } else if (index === 2) {
-                  // Drittes Bild: mittel
-                  gridColumn = "span 6";
-                  gridRow = "span 2";
-                } else if (index === 3) {
-                  // Viertes Bild: mittel
-                  gridColumn = "span 6";
-                  gridRow = "span 2";
-                } else if (index === 4) {
-                  // Fünftes Bild: groß und breit
-                  gridColumn = "span 7";
-                  gridRow = "span 3";
-                } else if (index === 5) {
-                  // Sechstes Bild: hoch rechts
-                  gridColumn = "span 5";
-                  gridRow = "span 3";
-                } else {
-                  // Restliche Bilder: verschiedene Größen
-                  const patterns = [
-                    { col: "span 4", row: "span 2" },
-                    { col: "span 8", row: "span 2" },
-                    { col: "span 6", row: "span 3" },
-                    { col: "span 6", row: "span 2" },
-                  ];
-                  const pattern = patterns[(index - 6) % patterns.length];
-                  gridColumn = pattern.col;
-                  gridRow = pattern.row;
-                }
-              }
+              // Pattern: erste 2 Bilder in Spalte 1+2, nächste 2 in Spalte 3+4
+              // Zeile 1: Bild Bild - -
+              // Zeile 2: - - Bild Bild
+              const groupIndex = Math.floor(index / 2);
+              const isLeftGroup = groupIndex % 2 === 0;
 
               return (
                 <div
                   key={index}
                   style={{
-                    position: "relative",
-                    gridColumn,
-                    gridRow,
+                    gridColumn: isLeftGroup
+                      ? (index % 2 === 0 ? "1" : "2")  // Spalte 1 oder 2
+                      : (index % 2 === 0 ? "3" : "4"), // Spalte 3 oder 4
                     borderRadius: "10px",
-                    overflow: "hidden",
-                    minHeight: isMobile ? "250px" : "200px",
+                    overflow: "hidden"
                   }}
                 >
                   <Image
                     src={image.url}
                     alt={image.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1400px) 50vw, 700px"
-                    style={{ objectFit: "cover" }}
+                    width={700}
+                    height={500}
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block"
+                    }}
                   />
                 </div>
               );

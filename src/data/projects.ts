@@ -125,6 +125,57 @@ export const PROJECTS: Project[] = [
     website: "https://bw-krings.de"
   },
   {
+    id: "3",
+    slug: "hbe-gmbh",
+    active: true,
+    title: "HBE GmbH",
+    client: "SAP-Entwicklung",
+    subtitle: "Branding & Webdesign",
+    tags: ["Branding", "Design", "Web"],
+    heroImage: "/images/referenzen/hbe/REF-HBE-Header.webp",
+    sliderImage: "/images/referenzen/hbe/Ref-HBE-Basis.webp",
+    description: "Für die HBE GmbH entwickelten wir nach der Neugründung das komplette visuelle Erscheinungsbild. Dazu gehörten Logo, Corporate Design, Kreditkarten-Design sowie die Konzeption und Umsetzung der neuen Webseite.",
+    challenge: "Die HBE GmbH stand nach ihrer Neugründung vor der Herausforderung, eine professionelle Markenidentität aufzubauen, die Vertrauen schafft und das Unternehmen als kompetenten Partner im Bereich SAP-Entwicklung positioniert.",
+    solution: "Entwicklung einer ganzheitlichen Markenidentität von Grund auf – vom Logo über das Corporate Design bis hin zur kompletten Webseite. Ergänzt durch individuelle Gestaltungselemente wie Kreditkarten-Design für einen durchgängigen professionellen Auftritt.",
+    images: [
+      {
+        url: "/images/referenzen/hbe/REF-HBE-1.webp",
+        alt: "HBE Branding Detail 1"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-2.webp",
+        alt: "HBE Branding Detail 2"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-3.webp",
+        alt: "HBE Webdesign"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-4.webp",
+        alt: "HBE Corporate Design"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-5.webp",
+        alt: "HBE Detail 5"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-6.webp",
+        alt: "HBE Detail 6"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-7.webp",
+        alt: "HBE Detail 7"
+      },
+      {
+        url: "/images/referenzen/hbe/REF-HBE-8.webp",
+        alt: "HBE Detail 8"
+      }
+    ],
+    year: "2024",
+    services: ["Branding & Design"],
+    website: "https://hbe-gmbh.de"
+  },
+  {
     id: "studioforme",
     slug: "studioforme",
     active: false,
