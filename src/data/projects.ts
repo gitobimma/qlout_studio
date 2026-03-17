@@ -356,6 +356,45 @@ export const PROJECTS: Project[] = [
     ],
     year: "2024",
     services: ["UX/UI Design", "App Development"]
+  },
+  {
+    id: "4",
+    slug: "li-special-services",
+    active: true,
+    title: "LI Special Services",
+    client: "Luxus-Fahrdienst",
+    subtitle: "Digitale Plattform mit Buchungssystem",
+    tags: ["Web-App", "Branding", "UX/UI"],
+    heroImage: "/images/referenzen/li-special-services/REF-LI-Header.webp",
+    sliderImage: "/images/referenzen/li-special-services/REF-LI-Basis.webp",
+    description: "Für LI Special Services entwickelten wir eine vollständige digitale Plattform – von der Markenidentität über die moderne Web-App mit Buchungssystem bis hin zu hochwertigen Visitenkarten. Ein ganzheitliches Projekt für einen Premium-Fahrdienst.",
+    challenge: "LI Special Services benötigte eine professionelle digitale Präsenz, die den Luxus-Anspruch des Unternehmens widerspiegelt. Die Herausforderung bestand darin, ein nahtloses Buchungserlebnis zu schaffen und gleichzeitig eine elegante, vertrauenswürdige Marke zu etablieren.",
+    solution: "Entwicklung einer modernen Web-App mit integriertem Buchungssystem und personalisierten Dashboards für Kunden und Fahrer. Ergänzt durch eine durchdachte Markenidentität und hochwertiges Print-Design wie Visitenkarten für einen konsistenten Premium-Auftritt.",
+    images: [
+      {
+        url: "/images/referenzen/li-special-services/REF-LI-1.webp",
+        alt: "LI Special Services Web-App Interface"
+      },
+      {
+        url: "/images/referenzen/li-special-services/REF-LI-2.webp",
+        alt: "LI Special Services Buchungssystem"
+      },
+      {
+        url: "/images/referenzen/li-special-services/REF-LI-3.webp",
+        alt: "LI Special Services Dashboard"
+      },
+      {
+        url: "/images/referenzen/li-special-services/REF-LI-4.webp",
+        alt: "LI Special Services Branding Details"
+      },
+      {
+        url: "/images/referenzen/li-special-services/REF-LI-5.webp",
+        alt: "LI Special Services Visitenkarten"
+      }
+    ],
+    year: "2024",
+    services: ["Web Development", "UX/UI Design", "Branding"],
+    website: "https://www.li-special-services.de/"
   }
 ];
 

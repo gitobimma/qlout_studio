@@ -218,43 +218,30 @@ export default function ProjectDetailPage() {
         <Container>
           <div style={{
             display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)",
-            gap: isMobile ? "16px" : "clamp(20px, 2.5vw, 40px)",
-            rowGap: isMobile ? "16px" : "clamp(40px, 5vw, 60px)"
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+            gap: "clamp(16px, 2vw, 24px)",
           }}>
-            {project.images.map((image, index) => {
-              // Pattern: erste 2 Bilder in Spalte 1+2, nächste 2 in Spalte 3+4
-              // Zeile 1: Bild Bild - -
-              // Zeile 2: - - Bild Bild
-              const groupIndex = Math.floor(index / 2);
-              const isLeftGroup = groupIndex % 2 === 0;
-
-              return (
-                <div
-                  key={index}
+            {project.images.map((image, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "relative",
+                  aspectRatio: "1 / 1",
+                  borderRadius: "10px",
+                  overflow: "hidden"
+                }}
+              >
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   style={{
-                    gridColumn: isLeftGroup
-                      ? (index % 2 === 0 ? "1" : "2")  // Spalte 1 oder 2
-                      : (index % 2 === 0 ? "3" : "4"), // Spalte 3 oder 4
-                    borderRadius: "10px",
-                    overflow: "hidden"
+                    objectFit: "cover"
                   }}
-                >
-                  <Image
-                    src={image.url}
-                    alt={image.alt}
-                    width={700}
-                    height={500}
-                    sizes="(max-width: 768px) 100vw, 25vw"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block"
-                    }}
-                  />
-                </div>
-              );
-            })}
+                />
+              </div>
+            ))}
           </div>
         </Container>
       </section>
